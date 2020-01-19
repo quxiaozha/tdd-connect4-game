@@ -63,4 +63,16 @@ public class Connect4TDDSpec {
         tested.putDiscInColumn(column);
     }
 
+    @Test
+    public void whenFirstPlayerPlaysThenDiscColorIsRed(){
+        assertThat(tested.getCurrentPlayer(), is("R"));
+    }
+
+    @Test
+    public void whenSecondPlayerPlaysThenDiscColorIsGreen(){
+        int column = 1;
+        tested.putDiscInColumn(column);
+        assertThat(tested.getCurrentPlayer(), is("G"));
+    }
+
 }
