@@ -11,7 +11,7 @@ import static org.junit.Assert.assertThat;
 public class Connect4TDDSpec {
     private Connect4TDD tested;
     @Rule
-    ExpectedException exception = ExpectedException.none();
+    public ExpectedException exception = ExpectedException.none();
 
     @Before
     public void beforeEachTest() {
@@ -28,26 +28,26 @@ public class Connect4TDDSpec {
         int column = -1;
         exception.expect(RuntimeException.class);
         exception.expectMessage("Invalid column " + column);
-        tested.putDiscInCloumn(column);
+        tested.putDiscInColumn(column);
     }
 
     @Test
     public void whenFirstDiscInsertedInColumnThenPositionIsZero() {
         int column = 1;
-        assertThat(tested.putDiscInCloumn(column), is(0));
+        assertThat(tested.putDiscInColumn(column), is(0));
     }
 
     @Test
     public void whenSecondDiscInsertedInColumnThenPositionIsOne() {
         int column = 1;
-        tested.putDiscInCloumn(column);
-        assertThat(tested.putDiscInCloumn(column), is(1));
+        tested.putDiscInColumn(column);
+        assertThat(tested.putDiscInColumn(column), is(1));
     }
 
     @Test
     public void whenDiscInsertedThenNumberOfDiscIncreases() {
         int column = 1;
-        tested.putDiscInCloumn(column);
+        tested.putDiscInColumn(column);
         assertThat(tested.getNumberOfDiscs(), is(1));
     }
 
@@ -56,11 +56,11 @@ public class Connect4TDDSpec {
         int column = 1;
         int maxDiscsInColumn = 6;
         for (int times = 1; times <= maxDiscsInColumn; times++) {
-            tested.putDiscInCloumn(column);
+            tested.putDiscInColumn(column);
         }
         exception.expect(RuntimeException.class);
         exception.expectMessage("No more room in column " + column);
-        tested.putDiscInCloumn(column);
+        tested.putDiscInColumn(column);
     }
 
 }
