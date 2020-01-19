@@ -43,9 +43,9 @@ public class Connect4TDD {
         return row;
     }
 
-    private void printBoard(){
+    private void printBoard() {
         for (int row = ROWS - 1; row >= 0; row--) {
-            StringJoiner stringJoiner = new StringJoiner(DELIMITER,DELIMITER,DELIMITER);
+            StringJoiner stringJoiner = new StringJoiner(DELIMITER, DELIMITER, DELIMITER);
             Stream.of(board[row]).forEachOrdered(stringJoiner::add);
             outputChannel.println(stringJoiner.toString());
         }
@@ -74,5 +74,9 @@ public class Connect4TDD {
         if (row == ROWS) {
             throw new RuntimeException("No more room in column " + column);
         }
+    }
+
+    public boolean isFinished() {
+        return getNumberOfDiscs() == ROWS * COLUMNS;
     }
 }
