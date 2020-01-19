@@ -9,8 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 public class Connect4TDDSpec {
@@ -71,42 +70,53 @@ public class Connect4TDDSpec {
     }
 
     @Test
-    public void whenFirstPlayerPlaysThenDiscColorIsRed(){
+    public void whenFirstPlayerPlaysThenDiscColorIsRed() {
         assertThat(tested.getCurrentPlayer(), is("R"));
     }
 
     @Test
-    public void whenSecondPlayerPlaysThenDiscColorIsGreen(){
+    public void whenSecondPlayerPlaysThenDiscColorIsGreen() {
         int column = 1;
         tested.putDiscInColumn(column);
         assertThat(tested.getCurrentPlayer(), is("G"));
     }
 
     @Test
-    public void whenAskedForCurrentPlayerThenOutputNotice(){
+    public void whenAskedForCurrentPlayerThenOutputNotice() {
         tested.getCurrentPlayer();
         assertThat(output.toString(), containsString("Player R turn"));
     }
 
     @Test
-    public void whenDiscIsIntroducedThenBoardIsPrinted(){
+    public void whenDiscIsIntroducedThenBoardIsPrinted() {
         int column = 1;
         tested.putDiscInColumn(column);
         assertThat(output.toString(), containsString("| |R| | | | | |"));
     }
 
     @Test
-    public void whenTheGameStartsItIsNotFinished(){
+    public void whenTheGameStartsItIsNotFinished() {
         assertFalse("The game must not be finished", tested.isFinished());
     }
 
     @Test
-    public void whenNoDiscCanBeIntroducedTheGamesIsFinished(){
+    public void whenNoDiscCanBeIntroducedTheGamesIsFinished() {
         for (int row = 0; row < 6; row++) {
             for (int column = 0; column < 7; column++) {
                 tested.putDiscInColumn(column);
             }
         }
         assertTrue("The game must be finished", tested.isFinished());
+    }
+
+    @Test
+    public void when4VertivcalDiscsAreConnectedThenPlayerWins() {
+        for (int row = 0; row < 3; row++){
+            tested.putDiscInColumn(1); //R
+            tested.putDiscInColumn(2); //G
+        }
+        assertThat(tested.getWinner(), isEmptyString());
+        tested.putDiscInColumn(1);
+        assertThat(tested.getWinner(), is("R"));
     }
 }

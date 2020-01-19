@@ -3,6 +3,7 @@ package com.tddjava;
 import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.StringJoiner;
+import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -15,6 +16,8 @@ public class Connect4TDD {
     private static final String DELIMITER = "|";
     private String currentPlayer = RED;
     private PrintStream outputChannel;
+    private static final int DISCS_TO_WIN = 4;
+    private String winner = "";
 
     private String[][] board = new String[ROWS][COLUMNS];
 
@@ -39,6 +42,7 @@ public class Connect4TDD {
         checkPositionToInsert(row, column);
         board[row][column] = getCurrentPlayer();
         printBoard();
+        checkWinner(0,1);
         switchPlayer();
         return row;
     }
@@ -79,4 +83,20 @@ public class Connect4TDD {
     public boolean isFinished() {
         return getNumberOfDiscs() == ROWS * COLUMNS;
     }
+
+    public String getWinner() {
+        return winner;
+    }
+
+    private void checkWinner(int row, int column){
+        if(winner.isEmpty()){
+            String colour = board[row][column];
+            Pattern winPattern = Pattern.compile(".*"+colour+"{" + DISCS_TO_WIN + "}.*");
+            String vertical = IntStream.range(0, ROWS).mapToObj(r -> board[r][column]).reduce(String::concat).get();
+            if(winPattern.matcher(vertical).matches()){
+                winner = colour;
+            }
+        }
+    }
+
 }
